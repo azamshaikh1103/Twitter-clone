@@ -25,7 +25,7 @@ const FeedCard: React.FC = () => {
                     <div className="flex justify-between items-center pr-4">
                         <div className="font-bold">
                             <span>Azam Ali Shaikh</span>
-                            <span className="pl-4 font-light text-slate-500">@azamshaikh</span>
+                            <span className="pl-4 font-medium text-slate-400">@azamshaikh</span>
                         </div>
                         <div><SlOptions className="text-gray-600"/></div>
                     </div>
@@ -34,13 +34,13 @@ const FeedCard: React.FC = () => {
                              Accusamus fugit dolore quaerat? Ducimus qui excepturi molestiae sit nulla reprehenderit quos est sequi repellat, sapiente quidem fugit impedit, praesentium odit fugiat reiciendis itaque quia delectus dicta? Harum dolorem nihil placeat facilis, ex recusandae qui blanditiis quidem quod nesciunt necessitatibus fugit odit.
                     </div>
                     <div className="flex justify-between items-center text-lg text-gray-600">
-                        <MdOutlineChatBubbleOutline className="hover:bg-blue-50 h-fit w-fit p-3 rounded-full"/>
-                        <AiOutlineRetweet className="hover:bg-green-50 h-fit w-fit p-3 rounded-full"/>
-                        <FaRegHeart className="hover:bg-red-50 h-fit w-fit p-3 rounded-full"/>
-                        <ImStatsBars className="hover:bg-blue-50 h-fit w-fit p-3 rounded-full"/>
+                        <MdOutlineChatBubbleOutline className="hover:bg-blue-100 transition-all h-fit w-fit p-2 rounded-full"/>
+                        <AiOutlineRetweet className="hover:bg-green-100 transition-all h-fit w-fit p-2 rounded-full"/>
+                        <FaRegHeart className="hover:bg-red-100 transition-all h-fit w-fit p-2 rounded-full"/>
+                        <ImStatsBars className="hover:bg-blue-100 transition-all h-fit w-fit p-2 rounded-full"/>
                         <div className="flex">
-                            <FaRegBookmark className="hover:bg-blue-50 h-fit w-fit p-3 rounded-full"/>
-                            <LuShare className="hover:bg-blue-50 h-fit w-fit p-3 rounded-full"/>
+                            <FaRegBookmark className="hover:bg-blue-100 transition-all h-fit w-fit p-2 rounded-full"/>
+                            <LuShare className="hover:bg-blue-100 transition-all h-fit w-fit p-2 rounded-full"/>
                         </div>
                     </div>
                 </div>
