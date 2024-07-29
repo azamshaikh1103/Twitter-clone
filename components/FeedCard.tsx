@@ -10,7 +10,7 @@ import { LuShare } from "react-icons/lu";
 
 const FeedCard: React.FC = () => {
   return (
-    <div className="grid grid-cols-12 pl-4 pt-3 border-b dark:border-[#2f3336] hover:bg-[#f7f7f7] dark:hover:bg-[#181818] transition-all cursor-pointer">
+    <div className="grid grid-cols-12 pl-4 pt-3 border-b dark:border-[#2f3336] hover:bg-[#f7f7f7] dark:hover:bg-[#080808] transition-all cursor-pointer">
       <div className="col-span-1">
         <Image
           className="rounded-full"

@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 export function PostOnHome() {
+  const [feedText, setFeedText] = useState("");
+
   return (
     <div className=" h-auto grid grid-cols-12 pl-4 py-3 mt-14 border-b dark:border-[#2f3336] cursor-text">
       <div className="col-span-1">
@@ -17,13 +20,20 @@ export function PostOnHome() {
       </div>
       <div className="ml-4 text-md col-span-11">
         <TextareaAutosize
+          onChange={(e) => {
+            setFeedText(e.target.value);
+          }}
           className=" h-auto w-11/12 mr-6 mt-3 pb-3 text-lg dark:text-white bg-transparent outline-none resize-none overflow-hidden border-b dark:border-[#232323]"
           placeholder="What is happening?!"
           rows={1}
         />
         <div className=" flex justify-between my-2 mr-10 dark:text-white">
           <div>O O O O O O</div>
-          <button className=" font-semibold bg-[#1d9bf0] text-white hover:bg-[#1a8cd8] w-[100px] p-1 rounded-full">
+          <button
+            className={` font-semibold ${
+              feedText.length > 0 ? "bg-[#1d9bf0]  hover:bg-[#1a8cd8]" : "bg-[#236693] cursor-not-allowed"
+            } text-white w-[100px] p-1 rounded-full`}
+          >
             POST
           </button>
         </div>

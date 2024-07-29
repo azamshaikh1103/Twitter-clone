@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id       String   @id @default(uuid())
+  name     String?
+  email    String   @unique
+  DOB      DateTime?
+  password String
+  posts    Post[]
+}
+
+model Post {
+  id              Int      @id @default(autoincrement())
+  postedById      String
+  postedOn        DateTime @default(now())
+  postMsg         String
+  tags            String[]
+  mentions        String[]
+  commentsCount   Int      @default(0)
+  retweetsCount   Int      @default(0)
+  likesCount      Int      @default(0)
+  viewsCount      Int      @default(0)
+  mediaUrl        String?
+  isRetweet       Boolean  @default(false)
+  originalPostId  Int?
+  
+  originalPost    Post?    @relation("Retweets", fields: [originalPostId], references: [id])
+  retweets        Post[]   @relation("Retweets")
+  user            User     @relation(fields: [postedById], references: [id])
+}
