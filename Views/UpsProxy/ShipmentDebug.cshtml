@@ -1,0 +1,42 @@
+@model OAuth2App.Models.DebugViewModel
+@{
+    ViewData["Title"] = "Connection Test";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-network-wired me-2 text-primary"></i>Connection Verification</h2>
+        <a asp-controller="Home" asp-action="Privacy" class="btn btn-outline-dark">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Success Banner -->
+    @if (Model.StatusCode == 200)
+    {
+        <div class="alert alert-success shadow-sm border-0 mb-4">
+            <h4 class="alert-heading fw-bold"><i class="fa-solid fa-circle-check me-2"></i>Connection Successful</h4>
+            <p class="mb-0">The OAuth 2.0 Access Token was accepted by the UPS Gateway. Your Authentication Layer is fully functional.</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger shadow-sm border-0 mb-4">
+            <h4 class="alert-heading fw-bold"><i class="fa-solid fa-circle-xmark me-2"></i>Connection Failed</h4>
+            <p class="mb-0">UPS rejected the token. Please check your credentials.</p>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white fw-bold">
+            Technical Response Log
+        </div>
+        <div class="card-body bg-light">
+            <p class="fw-bold text-muted">Target Endpoint:</p>
+            <code>@Model.ApiUrl</code>
+            <hr />
+            <p class="fw-bold text-muted">Server Response:</p>
+            <pre class="mb-0 text-success fw-bold">@Model.RawResponse</pre>
+        </div>
+    </div>
+</div>

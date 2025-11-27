@@ -1,0 +1,117 @@
+@model OAuth2App.Models.DebugViewModel
+@{
+    ViewData["Title"] = "Secure Tokens";
+
+    // --- DATE FORMATTING LOGIC ---
+    string friendlyDate = "Unknown";
+    string timeRemaining = "";
+    string badgeClass = "bg-secondary";
+
+    if (!string.IsNullOrEmpty(Model.Expiration) && DateTimeOffset.TryParse(Model.Expiration, out var dt))
+    {
+        // 1. Convert to "Nov 26, 2025 8:25 PM"
+        friendlyDate = dt.ToLocalTime().ToString("MMM dd, yyyy h:mm tt");
+
+        // 2. Calculate "In X Minutes"
+        var diff = dt - DateTimeOffset.UtcNow;
+        
+        if (diff.TotalSeconds <= 0)
+        {
+            timeRemaining = "(Expired)";
+            badgeClass = "bg-danger";
+        }
+        else if (diff.TotalHours < 1)
+        {
+            timeRemaining = $"(Expires in {diff.Minutes} mins)";
+            badgeClass = "bg-warning text-dark";
+        }
+        else
+        {
+            timeRemaining = $"(Expires in {diff.Hours} hours)";
+            badgeClass = "bg-success";
+        }
+    }
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-shield-cat me-2 text-warning"></i>Credential Vault</h2>
+        <a asp-controller="Home" asp-action="Privacy" class="btn btn-outline-dark">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+    </div>
+
+    <div class="alert alert-info shadow-sm border-0">
+        <i class="fa-solid fa-lock me-2"></i>
+        <strong>Security Mode:</strong> Tokens are masked by default. Click the <i class="fa-solid fa-eye"></i> icon to reveal them.
+    </div>
+
+    <!-- ACCESS TOKEN CARD -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+            <div>
+                <span class="fw-bold me-2">Access Token</span>
+                <!-- PRETTY DATE BADGE -->
+                <span class="badge @badgeClass">@friendlyDate @timeRemaining</span>
+            </div>
+            <div class="btn-group">
+                <button onclick="toggleVisibility('accessToken', 'icon-access')" class="btn btn-sm btn-outline-light" title="Show/Hide">
+                    <i id="icon-access" class="fa-solid fa-eye"></i>
+                </button>
+                <button onclick="copyToClipboard('accessToken')" class="btn btn-sm btn-light fw-bold" title="Copy to Clipboard">
+                    <i class="fa-regular fa-copy me-1"></i> Copy
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <input type="hidden" id="accessToken_real" value="@Model.AccessToken" />
+            <textarea id="accessToken" class="form-control font-monospace border-0 rounded-0" rows="4" readonly style="background-color: #f8f9fa; color: #6c757d;">••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••</textarea>
+        </div>
+    </div>
+
+    <!-- REFRESH TOKEN CARD -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <span class="fw-bold">Refresh Token</span>
+            <div class="btn-group">
+                <button onclick="toggleVisibility('refreshToken', 'icon-refresh')" class="btn btn-sm btn-outline-light" title="Show/Hide">
+                    <i id="icon-refresh" class="fa-solid fa-eye"></i>
+                </button>
+                <button onclick="copyToClipboard('refreshToken')" class="btn btn-sm btn-light fw-bold" title="Copy to Clipboard">
+                    <i class="fa-regular fa-copy me-1"></i> Copy
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <input type="hidden" id="refreshToken_real" value="@Model.RefreshToken" />
+            <textarea id="refreshToken" class="form-control font-monospace border-0 rounded-0" rows="2" readonly style="background-color: #f8f9fa; color: #6c757d;">••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••</textarea>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleVisibility(elementId, iconId) {
+        var displayField = document.getElementById(elementId);
+        var realValue = document.getElementById(elementId + "_real").value;
+        var icon = document.getElementById(iconId);
+        
+        if (displayField.value.startsWith("•••")) {
+            displayField.value = realValue;
+            displayField.style.color = "#212529"; 
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            displayField.value = "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••";
+            displayField.style.color = "#6c757d"; 
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    }
+
+    function copyToClipboard(elementId) {
+        var realValue = document.getElementById(elementId + "_real").value;
+        navigator.clipboard.writeText(realValue).then(function() {
+            alert("Secure Token copied to clipboard!");
+        });
+    }
+</script>

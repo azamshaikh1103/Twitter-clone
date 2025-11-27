@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Connect";
+}
+
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-5">
+        <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+            <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #351C15 0%, #111 100%);">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/United_Parcel_Service_logo_2014.svg" alt="UPS Logo" width="60" style="filter: drop-shadow(0px 0px 5px rgba(255,255,255,0.2));">
+                <h3 class="text-white mt-3 fw-bold">Integration Hub</h3>
+                <p class="text-white-50 mb-0">Secure OAuth 2.0 Gateway</p>
+            </div>
+            
+            <div class="card-body p-5 bg-white">
+                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <!-- LOGGED IN STATE -->
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block p-3 rounded-circle mb-3" style="background-color: #d1e7dd;">
+                            <i class="fa-solid fa-check fa-2x text-success"></i>
+                        </div>
+                        <h5 class="fw-bold text-success">Connection Active</h5>
+                        <p class="text-muted small">You are securely connected to UPS.</p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Home" asp-action="Privacy" class="btn btn-lg fw-bold shadow-sm btn-success">
+                            <i class="fa-solid fa-gauge-high me-2"></i> Go to Dashboard
+                        </a>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-grid">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm mt-2">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i> Disconnect
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <!-- GUEST STATE -->
+                    <div class="text-center mb-4">
+                        <div class="d-inline-block p-3 rounded-circle mb-3" style="background-color: #fff8e1;">
+                            <i class="fa-solid fa-shield-halved fa-2x" style="color: #FFB500;"></i>
+                        </div>
+                        <h5 class="fw-bold">Authorization Required</h5>
+                        <p class="text-muted small">Connect your UPS account to enable automated shipping, tracking, and label generation.</p>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-lg fw-bold shadow-sm" 
+                           style="background-color: #FFB500; color: #351C15; border: none; transition: all 0.2s;">
+                            <i class="fa-solid fa-link me-2"></i> Connect UPS Account
+                        </a>
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <small class="text-muted"><i class="fa-solid fa-lock me-1"></i> 256-bit SSL Secure Connection</small>
+        </div>
+    </div>
+</div>
